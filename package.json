@@ -16,8 +16,9 @@
   },
   "types": "./dist/index.d.ts",
   "scripts": {
-    "prepublishOnly": "npm run generate && npm run build",
+    "prepublishOnly": "npm run clean-build",
     "dev": "vite",
+    "clean-build": "rm -r dist src/components/icons && npm run generate && npm run build",
     "build": "vite build && vue-tsc --emitDeclarationOnly",
     "generate": "npx tsx src/generate.ts",
     "types": "vue-tsc",
