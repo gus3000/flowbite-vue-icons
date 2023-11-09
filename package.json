@@ -16,6 +16,7 @@
   },
   "types": "./dist/index.d.ts",
   "scripts": {
+    "prepublishOnly": "npm run generate && npm run build",
     "dev": "vite",
     "build": "vite build && vue-tsc --emitDeclarationOnly",
     "generate": "npx tsx src/generate.ts",
