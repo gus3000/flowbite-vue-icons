@@ -12,15 +12,13 @@ defineProps<{
 <template>
 {{#each icons}}
   {{~#if ../defineProp~}}
-  <template
-  v-if="
+  <template v-if="
       {{~#if solid~}}
       solid
       {{~else~}}
       !solid
       {{~/if~}}
-      "
-  >
+      ">
   {{~/if~}}
     {{{this.svg}~}}
   {{~#if ../defineProp~}}
