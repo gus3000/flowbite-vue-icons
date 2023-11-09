@@ -4,7 +4,7 @@ defineProps<{
   solid: {
     type: boolean,
     required: true,
-  }
+  },
 }>();
 {{/if}}
 </script>
@@ -12,7 +12,9 @@ defineProps<{
 <template>
 {{#each icons}}
   {{~#if ../defineProp~}}
-  <template v-if="
+  <div
+      :class="$attrs.class"
+      v-if="
       {{~#if solid~}}
       solid
       {{~else~}}
@@ -22,8 +24,8 @@ defineProps<{
   {{~/if~}}
     {{{this.svg}~}}
   {{~#if ../defineProp~}}
-  </template>
-  {{~/if~}}
+  </div>
+  {{/if~}}
 {{/each}}
 </template>
 
