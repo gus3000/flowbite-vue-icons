@@ -1,9 +1,17 @@
 <script setup lang="ts">
+import {IconType} from "../../../types.ts";
 
+defineProps<{
+  iconType: IconType
+}>();
 </script>
 
 <template>
-{{{svg}~}}
+{{#each icons}}
+  <template v-if="iconType === IconType.{{ this.iconType }}">
+    {{{this.svg}~}}
+  </template>
+{{/each}}
 </template>
 
 <style scoped>

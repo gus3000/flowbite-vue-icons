@@ -3,7 +3,7 @@ import {readFileSync, writeFileSync, mkdirSync, promises} from "fs";
 import {join, dirname, basename, relative} from "path";
 import _ from 'lodash';
 
-const ICONS_SOURCE_DIR = "flowbite-icons/src/outline";
+const ICONS_SOURCE_DIR = "flowbite-icons/src";
 const VUE_COMPONENTS_OUTPUT_DIR = "src/components/icons";
 const INDEX_TS_PATH = "src/index.ts";
 const VUE_COMPONENTS_OUTPUT_DIR_RELATIVE_TO_INDEX = relative(dirname(INDEX_TS_PATH), VUE_COMPONENTS_OUTPUT_DIR);
@@ -27,26 +27,42 @@ let vueTemplate = Handlebars.compile(
 );
 
 console.log("generating icon components...");
-let componentsRelativePaths: string[] = [];
-for await(const path: string of walk(ICONS_SOURCE_DIR)) {
-    if (!path.endsWith('.svg')) {
-        console.log(path, 'not an svg file, skipping...');
-        continue;
+let componentsRelativePaths = {};
+let vueTemplates = {};
+
+for (let iconType of ['outline', 'solid']) {
+    let svgFolder = `${ICONS_SOURCE_DIR}/${iconType}`;
+    for await(const path: string of walk(svgFolder)) {
+        if (!path.endsWith('.svg')) {
+            console.log(path, 'not an svg file, skipping...');
+            continue;
+        }
+
+        let svg = readFileSync(path, 'utf8');
+
+        const relativeIconPath = dirname(path).substring(svgFolder.length);
+        const iconName = _.startCase(_.camelCase(basename(path, '.svg'))).replace(/ /g, '') + 'Icon';
+        const outputPath = `${VUE_COMPONENTS_OUTPUT_DIR}${relativeIconPath}/${iconName}.vue`;
+        // console.log(outputPath);
+
+        componentsRelativePaths[iconName] = `${VUE_COMPONENTS_OUTPUT_DIR_RELATIVE_TO_INDEX}${relativeIconPath}/${iconName}.vue`;
+        if (!vueTemplates.hasOwnProperty(outputPath)) {
+            vueTemplates[outputPath] = [];
+        }
+        vueTemplates[outputPath].push({
+            'iconType': iconType,
+            'svg': svg
+        });
     }
+}
 
-    let svg = readFileSync(path, 'utf8');
+for (let p in vueTemplates) {
+    let t = vueTemplates[p];
     const vueFileContent = vueTemplate({
-        svg: svg
+        icons: t
     });
-
-    const relativeIconPath = dirname(path).substring(ICONS_SOURCE_DIR.length);
-    const iconName = _.startCase(_.camelCase(basename(path, '.svg'))).replace(/ /g, '') + 'Icon';
-    const outputPath = `${VUE_COMPONENTS_OUTPUT_DIR}${relativeIconPath}/${iconName}.vue`;
-    // console.log(outputPath);
-
-    componentsRelativePaths.push(`${VUE_COMPONENTS_OUTPUT_DIR_RELATIVE_TO_INDEX}${relativeIconPath}/${iconName}.vue`);
-    mkdirSync(dirname(outputPath), {recursive: true});
-    writeFileSync(outputPath, vueFileContent);
+    mkdirSync(dirname(p), {recursive: true});
+    writeFileSync(p, vueFileContent);
 }
 
 let indexTemplate = Handlebars.compile(
