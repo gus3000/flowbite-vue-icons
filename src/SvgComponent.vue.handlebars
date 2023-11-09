@@ -1,11 +1,11 @@
 <script setup lang="ts">
 {{#if defineProp}}
-defineProps<{
+defineProps({
   solid: {
-    type: boolean,
+    type: Boolean,
     required: true,
   },
-}>();
+});
 {{/if}}
 </script>
 
@@ -31,7 +31,5 @@ defineProps<{
 </template>
 
 <style scoped>
-  div {
-    display: flex;
-  }
+
 </style>
