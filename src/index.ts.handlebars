@@ -1,0 +1,9 @@
+{{#each componentsRelativePaths}}
+import {{iconName this}} from "./{{this}}";
+{{/each}}
+
+export {
+{{#each componentsRelativePaths}}
+    {{iconName this}},
+{{/each}}
+}
