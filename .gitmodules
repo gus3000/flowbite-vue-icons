@@ -1,0 +1,4 @@
+[submodule "flowbite-icons"]
+	path = flowbite-icons
+	url = https://github.com/sparecycles/flowbite-icons.git
+	branch = origin/fix-typos

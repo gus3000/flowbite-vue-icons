@@ -1,3 +1,3 @@
 # Flowbite icons for Vue
 
-*work in progress*
+[Flowbite icons](https://flowbite.com/icons/) as Vue components
