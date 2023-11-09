@@ -1,3 +1,4 @@
-import AngleUpIcon from "./components/AngleUpIcon.vue";
+import AngleDownIcon from "./components/icons/outline/arrows/AngleDownIcon.vue";
 
-export {AngleUpIcon};
+
+export {AngleDownIcon};

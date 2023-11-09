@@ -1,5 +1,4 @@
 import Handlebars from "handlebars";
-// const template = import('Template.precompiled.js');
 import {readFileSync, writeFileSync, mkdirSync, promises} from "fs";
 import {join, dirname, basename} from "path";
 import _ from 'lodash';
@@ -15,7 +14,7 @@ async function* walk(dir) {
     }
 }
 
-const buf = readFileSync("src/Template.handlebars", {encoding: 'utf8'});
+const buf = readFileSync("src/VueSvgComponent.handlebars", {encoding: 'utf8'});
 let template = Handlebars.compile(buf);
 
 console.log("generating icon components...");
@@ -31,7 +30,7 @@ for await(const path: string of walk(ICONS_SOURCE_DIR)) {
     });
 
     const relativeIconPath = dirname(path).substring(ICONS_SOURCE_DIR.length);
-    const iconName = _.startCase(_.camelCase(basename(path, '.svg'))).replace(/ /g, '');
+    const iconName = _.startCase(_.camelCase(basename(path, '.svg'))).replace(/ /g, '') + 'Icon';
     const outputPath = `${VUE_COMPONENTS_OUTPUT_DIR}${relativeIconPath}/${iconName}.vue`;
     mkdirSync(dirname(outputPath), {recursive:true});
     writeFileSync(outputPath, vueFileContent);
