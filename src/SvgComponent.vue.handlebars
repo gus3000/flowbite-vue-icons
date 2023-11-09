@@ -1,14 +1,27 @@
 <script setup lang="ts">
-import {IconType} from "../../../types.ts";
-
+{{#if defineProp}}
 defineProps<{
-  iconType: IconType
+  solid: {
+    type: boolean,
+    required: true,
+  }
 }>();
+{{/if}}
 </script>
 
 <template>
 {{#each icons}}
-  <template v-if="iconType === IconType.{{ this.iconType }}">
+  <template
+  {{~#if ../defineProp}}
+  v-if="
+      {{~#if solid~}}
+      solid
+      {{~else~}}
+      !solid
+      {{~/if~}}
+      "
+  {{~/if~}}
+  >
     {{{this.svg}~}}
   </template>
 {{/each}}

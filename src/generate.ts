@@ -10,7 +10,7 @@ const VUE_COMPONENTS_OUTPUT_DIR_RELATIVE_TO_INDEX = relative(dirname(INDEX_TS_PA
 
 Handlebars.registerHelper('iconName', function (aString) {
     return basename(aString, '.vue');
-})
+});
 
 // console.log("relative components path :", VUE_COMPONENTS_OUTPUT_DIR_RELATIVE_TO_INDEX)
 // process.exit();
@@ -50,8 +50,8 @@ for (let iconType of ['outline', 'solid']) {
             vueTemplates[outputPath] = [];
         }
         vueTemplates[outputPath].push({
-            'iconType': iconType,
-            'svg': svg
+            solid: iconType === 'solid',
+            svg: svg
         });
     }
 }
@@ -59,7 +59,8 @@ for (let iconType of ['outline', 'solid']) {
 for (let p in vueTemplates) {
     let t = vueTemplates[p];
     const vueFileContent = vueTemplate({
-        icons: t
+        icons: t,
+        defineProp: t.length > 1,
     });
     mkdirSync(dirname(p), {recursive: true});
     writeFileSync(p, vueFileContent);
