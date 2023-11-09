@@ -1,8 +1,10 @@
 {
   "name": "flowbite-vue-icons",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/",
   "module": "./dist/flowbite-vue-icons.js",
   "exports": {
@@ -16,7 +18,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && vue-tsc --emitDeclarationOnly",
-    "types": "vue-tsc ",
+    "generate": "npx tsx src/generate.ts",
+    "types": "vue-tsc",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -24,6 +27,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
+    "handlebars": "^4.7.8",
+    "lodash": "^4.17.21",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vue-tsc": "^1.8.5"

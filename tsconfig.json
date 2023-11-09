@@ -23,6 +23,11 @@
     "declaration": true,
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "exclude": ["src/App.vue", "src/main.ts"],
+  "exclude": [
+    "src/App.vue",
+    "src/Template.handlebars",
+    "src/main.ts",
+    "src/generate.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
